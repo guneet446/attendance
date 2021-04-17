@@ -8,7 +8,7 @@ class Attendance extends StatefulWidget {
   _AttendanceState createState() => _AttendanceState();
 }
 
-List<SubjectAttendanceDetails> subjects = [SubjectAttendanceDetails("Machine Learning", 12, 15), SubjectAttendanceDetails("Operating Systems", 5, 15), SubjectAttendanceDetails("Python", 17, 17)];
+List<SubjectAttendanceDetails> subjects = [];
 
 class _AttendanceState extends State<Attendance> {
   @override
@@ -20,59 +20,58 @@ class _AttendanceState extends State<Attendance> {
           title: Text('My Attendance', style: TextStyle( color: Colors.white, fontSize: 40,),),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
+          actions: [
+            TextButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                _getSubject(context);
+              },
+            ),
+          ],
         ),
       ),
-      /*bottomNavigationBar: BottomAppBar(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(26,10,26,10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Total = Rs ' + total.toString(),
-                style: TextStyle(
-                  fontSize: 26,
-                  color: Colors.white,
-                ),),
-              RaisedButton(
-                onPressed: (){
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => Confirm())
-                  );
-                },
-                elevation: 8,
-                color: Color(0xffF2CC8F),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  'Continue',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontFamily: 'Pacifico',
-                    color: Color(0xff3D405B),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        color: Color(0xffe29578),
-      ),*/
       body: ListView.builder(
         itemCount: subjects.length,
         itemBuilder: (context, index) {
           return AttendanceCard(
             subject: subjects[index],
-            /*updateTotal: () {
-              setState(() {
-                foods.forEach((food) {total += food.amount;});
-              });
-            },*/
           );
         },
       ),
     );
+  }
+
+  final myController = TextEditingController();
+
+  _getSubject(BuildContext context) async{
+    return showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: Text("Subject"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              controller: myController,
+              decoration: InputDecoration(
+                  labelText: 'Subject'
+              ),
+              validator: (val) {
+                return val.isEmpty ? 'Enter the subject name' : null;
+              },
+            ),
+            TextButton(
+              onPressed: _setSubject,
+              child: Text('Submit'),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  void _setSubject() {
+    setState(() {
+      subjects.add(SubjectAttendanceDetails(myController.text, 1, 2));
+    });
   }
 }
