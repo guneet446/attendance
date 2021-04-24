@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:attendance/SubjectAttendanceDetails.dart';
+
 import 'Attendance.dart';
 
 class AttendanceCard extends StatefulWidget {
@@ -28,13 +29,20 @@ class _AttendanceCardState extends State<AttendanceCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  widget.subject.subjectName,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Column(
+                  children: [
+                    Text(
+                      widget.subject.subjectName,
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      widget.subject.subtitle,
+                    ),
+                  ],
                 ),
                 Container(
                   height: 50,
@@ -54,6 +62,10 @@ class _AttendanceCardState extends State<AttendanceCard> {
               children: <Widget>[
                 Text(
                   widget.subject.attended.toString() + ' / ' + widget.subject.total.toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold,),
+                ),
+                Text(
+                  (widget.subject.percentage.toInt()).toString() + "%",
                   style: TextStyle(fontWeight: FontWeight.bold,),
                 ),
                 ButtonBar(
@@ -81,30 +93,48 @@ class _AttendanceCardState extends State<AttendanceCard> {
                     ),
                   ],
                 ),
+                ButtonBar(
+                  children: <Widget>[
+                    IconButton(
+                        //onPressed: onPressed,
+                        icon: Icon(Icons.edit),
+                    ),
+                    IconButton(
+                        onPressed: _deleteSelected,
+                        icon: Icon(Icons.delete),
+                    ),
+                  ],
+                ),
               ],
             ),
-            /*Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Rs ' + widget.food.rate.toString(),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Color(0xffE07A5F),
-                  ),
-                ),
-                Text(
-                  'Rs ' + widget.food.amount.toString(),
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    color: Color(0xffE07A5F),
-                  ),
-                ),
-              ],
-            ),*/
           ],
         ),
       ),
     );
+  }
+  _deleteSelected() {
+    return showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: Text('Delete ${widget.subject.subjectName} ${widget.subject.subtitle}?'),
+        actions: <Widget>[
+          new TextButton(
+              child: new Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop()
+          ),
+          new TextButton(
+            child: new Text('Delete'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              subjects.remove(widget.subject);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) =>
+                    Attendance()),
+              );
+            },
+          ),
+        ],
+      );
+    });
   }
 }

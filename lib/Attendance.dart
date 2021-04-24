@@ -11,18 +11,21 @@ class Attendance extends StatefulWidget {
 List<SubjectAttendanceDetails> subjects = [];
 
 class _AttendanceState extends State<Attendance> {
+  String subjectName = "EAD";
+  String subtitle = "lecture";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightGreen,
       appBar: PreferredSize(preferredSize: Size.fromHeight(70),
         child: AppBar(
-          title: Text('My Attendance', style: TextStyle( color: Colors.white, fontSize: 40,),),
+          title: Text('My Attendance', style: TextStyle( color: Colors.white, fontSize: 35,),),
           backgroundColor: Colors.deepPurple,
           centerTitle: true,
           actions: [
             TextButton(
-              child: Icon(Icons.add),
+              child: Icon(Icons.add, color: Colors.white,),
               onPressed: () {
                 _getSubject(context);
               },
@@ -43,7 +46,79 @@ class _AttendanceState extends State<Attendance> {
 
   final myController = TextEditingController();
 
-  _getSubject(BuildContext context) async{
+  _getSubject(BuildContext context) {
+    List<String> subjectList = ['Machine Learning', 'Operating Systems', 'Computer Networks', 'DBMS', 'EAD'];
+    List<String> subtitleList = ['lecture', 'tutorial', 'lab'];
+    return showDialog(context: context, builder: (context) {
+      return AlertDialog(
+        title: Text("Subject"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // for dropdown to open in correct direction go to dropdown.dart and set selectedItemOffset to -40
+            DropdownButton<String>(
+              value: subjectName,
+              icon: const Icon(Icons.arrow_drop_down),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(color: Colors.deepPurple),
+              underline: Container(
+                height: 2,
+                color: Colors.deepPurpleAccent,
+              ),
+              onChanged: (String newValue) {
+                setState(() {
+                  subjectName = newValue;
+                });
+                //_setSubject(newValue);
+              },
+              items: subjectList
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+
+            DropdownButton<String>(
+              value: subtitle,
+              icon: const Icon(Icons.arrow_drop_down),
+              iconSize: 24,
+              elevation: 16,
+              style: const TextStyle(color: Colors.deepPurple),
+              underline: Container(
+                height: 2,
+                color: Colors.deepPurpleAccent,
+              ),
+              onChanged: (String newValue) {
+                setState(() {
+                  subtitle = newValue;
+                });
+                //_setSubject(newValue);
+              },
+              items: subtitleList
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+            TextButton(
+              onPressed:() {
+                Navigator.pop(context);
+                _setSubject();
+              },
+              child: Text('Submit'),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  /*_getSubject(BuildContext context) async{
     return showDialog(context: context, builder: (context) {
       return AlertDialog(
         title: Text("Subject"),
@@ -53,7 +128,7 @@ class _AttendanceState extends State<Attendance> {
             TextFormField(
               controller: myController,
               decoration: InputDecoration(
-                  labelText: 'Subject'
+                  labelText: 'Enter the subject name'
               ),
               validator: (val) {
                 return val.isEmpty ? 'Enter the subject name' : null;
@@ -67,11 +142,11 @@ class _AttendanceState extends State<Attendance> {
         ),
       );
     });
-  }
+  }*/
 
   void _setSubject() {
     setState(() {
-      subjects.add(SubjectAttendanceDetails(myController.text, 1, 2));
+      subjects.add(SubjectAttendanceDetails(subjectName, subtitle, 1, 2));
     });
   }
 }
