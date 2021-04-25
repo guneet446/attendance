@@ -12,7 +12,7 @@ List<SubjectAttendanceDetails> subjects = [];
 
 class _AttendanceState extends State<Attendance> {
   String subjectName = "EAD";
-  String subtitle = "lecture";
+  String subtitle = "Lecture";
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class _AttendanceState extends State<Attendance> {
 
   _getSubject(BuildContext context) {
     List<String> subjectList = ['Machine Learning', 'Operating Systems', 'Computer Networks', 'DBMS', 'EAD'];
-    List<String> subtitleList = ['lecture', 'tutorial', 'lab'];
+    List<String> subtitleList = ['Lecture', 'Tutorial', 'Lab'];
     return showDialog(context: context, builder: (context) {
       return AlertDialog(
         title: Text("Subject"),
@@ -59,12 +59,12 @@ class _AttendanceState extends State<Attendance> {
             DropdownButton<String>(
               value: subjectName,
               icon: const Icon(Icons.arrow_drop_down),
-              iconSize: 24,
+              iconSize: 35,
               elevation: 16,
-              style: const TextStyle(color: Colors.deepPurple),
+              //style: const TextStyle(color: Colors.deepPurple),
               underline: Container(
                 height: 2,
-                color: Colors.deepPurpleAccent,
+                //color: Colors.deepPurpleAccent,
               ),
               onChanged: (String newValue) {
                 setState(() {
@@ -118,35 +118,9 @@ class _AttendanceState extends State<Attendance> {
     });
   }
 
-  /*_getSubject(BuildContext context) async{
-    return showDialog(context: context, builder: (context) {
-      return AlertDialog(
-        title: Text("Subject"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextFormField(
-              controller: myController,
-              decoration: InputDecoration(
-                  labelText: 'Enter the subject name'
-              ),
-              validator: (val) {
-                return val.isEmpty ? 'Enter the subject name' : null;
-              },
-            ),
-            TextButton(
-              onPressed: _setSubject,
-              child: Text('Submit'),
-            ),
-          ],
-        ),
-      );
-    });
-  }*/
-
   void _setSubject() {
     setState(() {
-      subjects.add(SubjectAttendanceDetails(subjectName, subtitle, 1, 2));
+      subjects.add(SubjectAttendanceDetails(subjectName, subtitle, 0, 0));
     });
   }
 }

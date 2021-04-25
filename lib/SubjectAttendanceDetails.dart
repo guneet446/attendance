@@ -1,7 +1,7 @@
 class SubjectAttendanceDetails {
   String subjectName;
   String subtitle;
-  String status;
+  String status = "n/a";
   int attended;
   int total;
   double percentage;
@@ -11,6 +11,11 @@ class SubjectAttendanceDetails {
     this.subtitle = subtitle;
     this.attended = attended;
     this.total = total;
-    percentage = (attended / total) * 100;
+    if(attended == total) {
+      percentage = 99.99;
+    }
+    else {
+      percentage = (attended / total) * 100;
+    }
   }
 }
