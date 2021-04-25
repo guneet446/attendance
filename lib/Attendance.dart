@@ -17,15 +17,15 @@ class _AttendanceState extends State<Attendance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightGreen,
+      backgroundColor: Colors.white,
       appBar: PreferredSize(preferredSize: Size.fromHeight(70),
         child: AppBar(
-          title: Text('My Attendance', style: TextStyle( color: Colors.white, fontSize: 35,),),
-          backgroundColor: Colors.deepPurple,
+          title: Text('My Attendance', style: TextStyle( color: Color(0xffCADBE4), fontSize: 32,),),
+          backgroundColor: Color(0xff588297),
           centerTitle: true,
           actions: [
             TextButton(
-              child: Icon(Icons.add, color: Colors.white,),
+              child: Icon(Icons.add, color: Color(0xffCADBE4), size: 30,),
               onPressed: () {
                 _getSubject(context);
               },
@@ -64,7 +64,7 @@ class _AttendanceState extends State<Attendance> {
               //style: const TextStyle(color: Colors.deepPurple),
               underline: Container(
                 height: 2,
-                //color: Colors.deepPurpleAccent,
+                color: Color(0xffE28F22),
               ),
               onChanged: (String newValue) {
                 setState(() {
@@ -84,12 +84,12 @@ class _AttendanceState extends State<Attendance> {
             DropdownButton<String>(
               value: subtitle,
               icon: const Icon(Icons.arrow_drop_down),
-              iconSize: 24,
+              iconSize: 35,
               elevation: 16,
-              style: const TextStyle(color: Colors.deepPurple),
+              //style: const TextStyle(color: Colors.deepPurple),
               underline: Container(
                 height: 2,
-                color: Colors.deepPurpleAccent,
+                color: Color(0xffE28F22),
               ),
               onChanged: (String newValue) {
                 setState(() {
@@ -110,7 +110,7 @@ class _AttendanceState extends State<Attendance> {
                 Navigator.pop(context);
                 _setSubject();
               },
-              child: Text('Submit'),
+              child: Text('Submit', style: TextStyle(color: Color(0xff235790), fontSize: 16)),
             ),
           ],
         ),

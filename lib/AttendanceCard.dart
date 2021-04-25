@@ -21,9 +21,12 @@ class _AttendanceCardState extends State<AttendanceCard> {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.fromLTRB(25, 16, 25, 0),
-      color: Colors.white70,
+      color: Color(0xffCADBE4),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -36,7 +39,7 @@ class _AttendanceCardState extends State<AttendanceCard> {
                   widget.subject.subjectName + '\n' + widget.subject.subtitle + '\n',
                   style: TextStyle(
                     fontSize: 20,
-                    color: Colors.black,
+                    color: Color(0xff235790),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -45,10 +48,15 @@ class _AttendanceCardState extends State<AttendanceCard> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xff235790),
                   ),
                 ),
                 Text(
                   widget.subject.status,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xff235790),
+                  ),
                 ),
               ],
               ),
@@ -64,7 +72,7 @@ class _AttendanceCardState extends State<AttendanceCard> {
                   //padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                   child: PieChart(
                     PieChartData(
-                      sections: [PieChartSectionData(value: widget.subject.percentage, color: Colors.green, showTitle: false), PieChartSectionData(value: (100 - widget.subject.percentage), color: Colors.red, showTitle: false)],
+                      sections: [PieChartSectionData(value: widget.subject.percentage, color: Color(0xff235790), showTitle: false), PieChartSectionData(value: (100 - widget.subject.percentage), color: Color(0xffE28F22), showTitle: false)],
                     ),
                   ),
                 ),
@@ -76,6 +84,7 @@ class _AttendanceCardState extends State<AttendanceCard> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
+                    color: Color(0xff235790),
                   ),
                 ),
               ),
@@ -85,7 +94,7 @@ class _AttendanceCardState extends State<AttendanceCard> {
             Column(
               children: <Widget>[
               IconButton(
-                icon: Icon(Icons.check_circle, color: Colors.green, size: 27,),
+                icon: Icon(Icons.check_circle, color: Color(0xff235790), size: 27,),
                 onPressed: () {
                   setState(() {
                     widget.subject.attended += 1;
@@ -99,7 +108,7 @@ class _AttendanceCardState extends State<AttendanceCard> {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.cancel, color: Colors.red, size: 27,),
+                icon: Icon(Icons.cancel, color: Color(0xffE28F22), size: 27,),
                 onPressed: () {
                   setState(() {
                     widget.subject.total += 1;
@@ -118,27 +127,30 @@ class _AttendanceCardState extends State<AttendanceCard> {
                 onPressed: () {
                   return showDialog(context: context, builder: (context) {
                     return AlertDialog(
-                      title: Text(widget.subject.subjectName + " " + widget.subject.subtitle),
+                      title: Text(
+                          widget.subject.subjectName + " " + widget.subject.subtitle,
+                        style: TextStyle(color: Colors.black),
+                      ),
                       actions: [
                         TextButton(
                             onPressed: () {
                               Navigator.pop(context);
                               editSelectedAttendanceCard();
                             },
-                            child: Text("Edit")
+                            child: Text("Edit", style: TextStyle(color: Color(0xff235790), fontSize: 16),)
                         ),
                         TextButton(
                             onPressed: () {
-                              deleteSelectedAttendanceCard();
                               Navigator.pop(context);
+                              deleteSelectedAttendanceCard();
                             },
-                            child: Text("Delete")
+                            child: Text("Delete", style: TextStyle(color: Color(0xff235790), fontSize: 16),)
                         ),
                       ],
                     );
                   });
                 },
-                icon: Icon(Icons.edit, color: Colors.blue, size: 25,),
+                icon: Icon(Icons.edit, color: Color(0xff588297), size: 25,),
               ),
             ],
             ),
@@ -183,10 +195,14 @@ class _AttendanceCardState extends State<AttendanceCard> {
               onPressed: () {
                 setState(() {
                   widget.subject.percentage = (widget.subject.attended / widget.subject.total) * 100;
+                  if(widget.subject.attended == 0) {
+                    widget.subject.percentage = 00.01;
+                  }
+                  setAttendanceStatus();
                 });
                 Navigator.pop(context);
               },
-              child: Text('Submit'),
+              child: Text('Submit', style: TextStyle(color: Color(0xff235790), fontSize: 16),),
           ),
         ],
       );
@@ -200,11 +216,11 @@ class _AttendanceCardState extends State<AttendanceCard> {
         title: Text('Delete ${widget.subject.subjectName} ${widget.subject.subtitle}?'),
         actions: <Widget>[
           new TextButton(
-              child: new Text('Cancel'),
+              child: new Text('Cancel', style: TextStyle(color: Color(0xff235790), fontSize: 16),),
               onPressed: () => Navigator.of(context).pop()
           ),
           new TextButton(
-            child: new Text('Delete'),
+            child: new Text('Delete', style: TextStyle(color: Color(0xff235790), fontSize: 16),),
             onPressed: () {
               Navigator.of(context).pop();
               subjects.remove(widget.subject);
